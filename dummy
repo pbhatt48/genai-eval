@@ -1,39 +1,64 @@
-Led the development of Insights features in collaboration with Product, Personetics, SDIT, MT, and various scrum teams, ensuring smooth cross-functional cooperation.
-Efficiently addressed and triaged defects, delegating them to appropriate teams such as UI/Tech or Personetics based on their nature and priority.
-Standardized and documented the release management packaging process in EB for insights features.
-Facilitated and conducted configuration review sessions with CI/MT and Tech teams, driving discussions on key topics related to content configurations, standards, and best practices to enhance the Fargo experience. Created learning sessions for the team on Gen AI topics and configurations.
-Collaborated with the Personetics and Product teams to align new insights/features, actively engaging the team in configuration setups and managing the release cycle.
-Built expertise in the Engagement Builder tool, documenting processes and providing training to bank staff to ensure efficient and effective use of the tool.
-Provided mentorship to Engagement handlers, establishing best practices to improve the transition from QRB insights to event handlers, optimizing QRB process transitions.
-Pioneered the initial batch of individuals for CI Gen AI experiments, setting up demos and leading by example to help others expand their understanding.
-Expanded my skill set in Generative AI by taking a leading role in Gen AI experiments, completing various courses such as Generative AI with LMs from DeepLearning AI, and continuing to explore more advanced tools and techniques.
-Standardized key processes related to Tenant handlers, Flow Names, and Parameters, and ensured they were properly documented and shared through Confluence for broader access.
-Managed the promotion process for EB configurations, coordinating with the Platform team to maintain operational environments and oversee successful package deployments from Personetics and EB.
-Conducted thorough reviews of support reports from three post-insights teams, analyzing insights, defects, and configurations for Exp 1 and Exp 2, and provided foundational solutions.
-Acquired and applied knowledge from CI Gen AI training, actively contributing to MM pod initiatives and activities.
-Offered support and guidance to team members, assisting in the design and development of complex CI features and solutions, fostering a collaborative problem-solving environment.
-Spearheaded the design and development of multiple Generative AI use case experiments, creating proof-of-concepts (POCs) tailored for higher leadership evaluation.
-Collaborated with teams from Google, Tech, Design, and Product to visualize and develop experiences across Level 1 to Level 5, shaping a clear vision for what these experiences should look like.
-Provided in-depth training to Karthik on the Insights and Engagement Builder, ensuring a smooth transition as he moved into the Insights POD.
-Actively participated in Wells Fargo’s Management Training Program to further develop and enhance leadership skills.
-Provided leadership and support to the Accounts pod within CI, successfully delivering multiple key features during a team member's absence due to vacation.
-Completed multiple Generative AI courses from DeepLearning AI and earned the Gen AI MLOps Specialization from Duke University, further enhancing expertise in AI and machine learning operations.
+import os
+import json
 
+def kebab_to_title(kebab_str):
+    """Convert kebab-case to Title Case."""
+    return kebab_str.replace('-', ' ').title()
 
-Area of focus:
-Maintain a collaborative spirit by assisting team members from other pods with complex solution design and development tasks.
-Acquire knowledge in model training to facilitate a smooth transition into CA roles.
-Expand and conduct more Generative AI experiments, utilizing all available tools to enhance experimentation efforts.
-Focus on developing and analyzing evaluation metrics and reports to enhance the accuracy and effectiveness of generative AI feature responses.
-Collaborate with the tech team to create Generative AI features aimed at pilot testing and customer release next year.
-Dedicate time to learning about Generative AI from both academic sources and industry developments to stay informed about the latest advancements.
-Foster continuous growth and knowledge-sharing within the team by facilitating new learning opportunities and educating team members.
-Continue developing standards and work collaboratively with all team members to document and publish them in Confluence for enhanced accessibility.
+def generate_json_entry(folder_name, pdf_file):
+    """Generate a JSON entry for a given folder and PDF file."""
+    kebab_case_folder = folder_name
+    title_case_folder = kebab_to_title(kebab_case_folder)
+    
+    doc_id = kebab_case_folder
+    category = [title_case_folder]  # Folder name as category in Title Case
+    description = f"This document has {title_case_folder} FAQ"
+    mimetype = "application/pdf"
+    uri = f"gs://{kebab_case_folder}/{pdf_file}"
+    
+    return {
+        "id": doc_id,
+        "structData": {
+            "category": category,
+            "description": description
+        },
+        "content": {
+            "mimeType": mimetype,
+            "uri": uri
+        }
+    }
 
+def process_folders(root_folder):
+    """Process all subfolders and generate JSON for PDFs."""
+    all_entries = []
+    
+    for folder_name, subfolders, files in os.walk(root_folder):
+        # Extract folder name from path
+        kebab_case_folder = os.path.basename(folder_name)
+        
+        # Loop through each file in the folder
+        for file_name in files:
+            if file_name.endswith('.pdf'):  # Only process PDF files
+                # Generate JSON entry for each PDF
+                json_entry = generate_json_entry(kebab_case_folder, file_name)
+                all_entries.append(json_entry)
+    
+    return all_entries
 
-Successfully finished all my "Develop Your Risk" training courses within the designated timeframe.
-Identified areas needing mitigation for any features, gaps, and risks, and actively supported the team in addressing these issues.
+def write_json_to_file(json_data, output_file):
+    """Write the generated JSON data to a file."""
+    with open(output_file, 'w') as json_file:
+        json.dump(json_data, json_file, indent=4)
 
-
-My primary objective is to assist team members in the development of impactful insights and generative AI features while fostering collaboration with the Fargo Scrum team, Product, Personetics, and Google. I aim to enhance our team's capabilities by providing support in complex solution design, offering mentorship, and facilitating knowledge-sharing sessions on various topics, including generative AI. Additionally, I will expand my expertise by conducting more experiments and participating in ongoing learning opportunities in this field. I am committed to creating standards and proper processes and effectively documenting them in Confluence to ensure broader accessibility. Through these experiences, I also aim to upskill my leadership abilities. Through these efforts, I aspire to strengthen our CI team and contribute positively to the overall success of our initiatives.
-
+# Main execution
+if __name__ == "__main__":
+    root_directory = "/path/to/your/folder"  # Replace with your root folder path
+    output_json_file = "output.json"
+    
+    # Process all folders and generate JSON data
+    json_data = process_folders(root_directory)
+    
+    # Write JSON data to output file
+    write_json_to_file(json_data, output_json_file)
+    
+    print(f"JSON data successfully written to {output_json_file}")
