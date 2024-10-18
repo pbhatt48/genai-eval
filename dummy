@@ -1,64 +1,43 @@
 import os
-import json
 
 def kebab_to_title(kebab_str):
-    """Convert kebab-case to Title Case."""
+    """
+    Convert a kebab-case string to Title Case.
+    Example: 'advance-access' -> 'Advance Access'
+    """
     return kebab_str.replace('-', ' ').title()
 
-def generate_json_entry(folder_name, pdf_file):
-    """Generate a JSON entry for a given folder and PDF file."""
-    kebab_case_folder = folder_name
-    title_case_folder = kebab_to_title(kebab_case_folder)
-    
-    doc_id = kebab_case_folder
-    category = [title_case_folder]  # Folder name as category in Title Case
-    description = f"This document has {title_case_folder} FAQ"
-    mimetype = "application/pdf"
-    uri = f"gs://{kebab_case_folder}/{pdf_file}"
-    
-    return {
-        "id": doc_id,
-        "structData": {
-            "category": category,
-            "description": description
-        },
-        "content": {
-            "mimeType": mimetype,
-            "uri": uri
-        }
-    }
-
-def process_folders(root_folder):
-    """Process all subfolders and generate JSON for PDFs."""
-    all_entries = []
-    
+def rename_files_in_folders(root_folder):
+    """
+    Traverse through all subfolders and rename files by prepending the folder name in Title Case.
+    Format: FolderName_filename.pdf
+    """
     for folder_name, subfolders, files in os.walk(root_folder):
-        # Extract folder name from path
+        # Extract the folder name and convert from kebab-case to Title Case
         kebab_case_folder = os.path.basename(folder_name)
+        title_case_folder = kebab_to_title(kebab_case_folder)
         
         # Loop through each file in the folder
         for file_name in files:
-            if file_name.endswith('.pdf'):  # Only process PDF files
-                # Generate JSON entry for each PDF
-                json_entry = generate_json_entry(kebab_case_folder, file_name)
-                all_entries.append(json_entry)
-    
-    return all_entries
-
-def write_json_to_file(json_data, output_file):
-    """Write the generated JSON data to a file."""
-    with open(output_file, 'w') as json_file:
-        json.dump(json_data, json_file, indent=4)
+            # Get the file extension
+            file_ext = os.path.splitext(file_name)[1]
+            
+            # Skip non-PDF files (if needed, modify this for other file types)
+            if not file_name.endswith('.pdf'):
+                continue
+            
+            # Generate the new file name: FolderName_filename
+            new_file_name = f"{title_case_folder}_{file_name}"
+            
+            # Get full paths for renaming
+            old_file_path = os.path.join(folder_name, file_name)
+            new_file_path = os.path.join(folder_name, new_file_name)
+            
+            # Rename the file
+            os.rename(old_file_path, new_file_path)
+            print(f"Renamed: {old_file_path} -> {new_file_path}")
 
 # Main execution
 if __name__ == "__main__":
-    root_directory = "/path/to/your/folder"  # Replace with your root folder path
-    output_json_file = "output.json"
-    
-    # Process all folders and generate JSON data
-    json_data = process_folders(root_directory)
-    
-    # Write JSON data to output file
-    write_json_to_file(json_data, output_json_file)
-    
-    print(f"JSON data successfully written to {output_json_file}")
+    root_directory = "/path/to/your/folder"  # Replace with the path to your root folder
+    rename_files_in_folders(root_directory)
