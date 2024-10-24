@@ -1,25 +1,54 @@
-import json
+import os
+import shutil
 
-def convert_json_to_jsonl(input_json_file, output_jsonl_file):
-    """
-    Convert a JSON file (array of objects) to JSONL format.
-    
-    :param input_json_file: Path to the input JSON file.
-    :param output_jsonl_file: Path to the output JSONL file.
-    """
-    # Read the input JSON file
-    with open(input_json_file, 'r') as json_file:
-        data = json.load(json_file)  # Load JSON array
-        
-    # Write to JSONL file
-    with open(output_jsonl_file, 'w') as jsonl_file:
-        for item in data:
-            jsonl_file.write(json.dumps(item) + '\n')  # Write each JSON object on a new line
+def copy_and_sync_folders(source_path, target_path):
+    # Walk through all subfolders in the source path
+    for root, dirs, files in os.walk(source_path):
+        # Get the relative path of the current directory in the source path
+        relative_path = os.path.relpath(root, source_path)
 
-# Main execution
+        # Construct the corresponding target directory path
+        target_dir = os.path.join(target_path, relative_path)
+
+        # If the corresponding target directory does not exist, copy the whole subfolder
+        if not os.path.exists(target_dir):
+            print(f"Copying entire folder from {root} to {target_dir}")
+            shutil.copytree(root, target_dir)
+        else:
+            # If the subfolder exists in the target, handle "trainingPhrases" subfolder
+            source_training_phrases_dir = os.path.join(root, 'trainingPhrases')
+            target_training_phrases_dir = os.path.join(target_dir, 'trainingPhrases')
+
+            if os.path.exists(source_training_phrases_dir):
+                if not os.path.exists(target_training_phrases_dir):
+                    print(f"Creating trainingPhrases folder in {target_dir}")
+                    os.makedirs(target_training_phrases_dir)
+
+                # Copy files from source trainingPhrases to target trainingPhrases
+                for file_name in os.listdir(source_training_phrases_dir):
+                    source_file = os.path.join(source_training_phrases_dir, file_name)
+                    target_file = os.path.join(target_training_phrases_dir, file_name)
+
+                    print(f"Copying {source_file} to {target_file}")
+                    shutil.copy2(source_file, target_file)
+
+    # Now handle the deletion of subfolders in the target path that do not exist in the source path
+    for root, dirs, files in os.walk(target_path):
+        # Get the relative path of the current directory in the target path
+        relative_path = os.path.relpath(root, target_path)
+
+        # Construct the corresponding source directory path
+        source_dir = os.path.join(source_path, relative_path)
+
+        # If the corresponding source directory does not exist, delete the entire folder from the target path
+        if not os.path.exists(source_dir):
+            print(f"Deleting folder {root} as it does not exist in source path")
+            shutil.rmtree(root)
+
 if __name__ == "__main__":
-    input_file = "/path/to/your/input.json"   # Replace with the input JSON file path
-    output_file = "/path/to/your/output.jsonl"  # Replace with the output JSONL file path
-    
-    convert_json_to_jsonl(input_file, output_file)
-    print(f"Conversion completed: {output_file}")
+    # Define your source and target paths
+    source_folder_path = '/path/to/source'
+    target_folder_path = '/path/to/target'
+
+    # Run the copy and sync process
+    copy_and_sync_folders(source_folder_path, target_folder_path)
