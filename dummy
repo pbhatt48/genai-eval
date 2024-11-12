@@ -1,34 +1,201 @@
-import os
-from pathlib import Path
-from PyPDF2 import PdfReader
+User Utterance: RSA
+ChatGPT
 
-# Set the input directory (where PDF files are located)
-input_dir = "path_to_your_directory"
+Thought for 10 seconds
 
-# Set the output directory for text files
-output_dir = "path_to_text_files_directory"
-Path(output_dir).mkdir(parents=True, exist_ok=True)  # Create output directory if it doesn't exist
+An RSA token is a small device that helps protect your Wells Fargo online banking. It creates unique codes that you enter when logging in, adding an extra layer of security to keep your account safe.
 
-# Function to convert PDF to text
-def pdf_to_text(pdf_path, text_path):
-    try:
-        with open(pdf_path, "rb") as file:
-            reader = PdfReader(file)
-            text = ""
-            for page in reader.pages:
-                text += page.extract_text() or ""
-        # Write the extracted text to a text file in the output directory
-        with open(text_path, "w", encoding="utf-8") as text_file:
-            text_file.write(text)
-    except Exception as e:
-        print(f"Failed to convert {pdf_path} to text: {e}")
 
-# Walk through directories to find PDFs and convert them
-for pdf_path in Path(input_dir).rglob("*.pdf"):
-    # Generate relative path for the PDF
-    relative_path = pdf_path.relative_to(input_dir)
-    # Define output path for the text file in the output directory, maintaining subdirectory structure
-    text_path = Path(output_dir) / relative_path.with_suffix(".txt")
-    text_path.parent.mkdir(parents=True, exist_ok=True)  # Create subdirectories if they don't exist
-    pdf_to_text(pdf_path, text_path)
-    print(f"Converted {pdf_path} to {text_path}")
+
+
+
+
+You said:
+User Utterance: Is RSA free?
+ChatGPT
+
+Thought for 12 seconds
+
+RSA tokens are free for small business and Vantage℠ customers at Wells Fargo. If you have a personal account, there is a one-time fee of $25 for the RSA token, and the same fee applies if you need a replacement device.
+
+
+
+
+
+
+You said:
+User Utterance: Advance access
+ChatGPT
+
+Thought for 14 seconds
+
+Advanced Access is a Wells Fargo security feature that adds extra protection to your online banking. When you do certain activities, we'll send a code to your phone or email to make sure it's really you. You'll enter this code along with your password, which helps keep your account safe by requiring two ways to confirm your identity.
+
+
+
+
+
+
+You said:
+User Utterance: RSA
+ChatGPT said:
+ChatGPT
+An RSA token is a secure device used by Wells Fargo to enhance account protection. It generates a unique code you enter along with your password when logging into your account. This extra step helps ensure that only you can access your online banking, adding an additional layer of security.
+
+
+
+
+
+
+You said:
+User Utterance: is RSA free?
+ChatGPT said:
+ChatGPT
+For Wells Fargo customers, the RSA SecurID® device is free for small business and Vantage℠ customers. Personal account holders are charged a one-time fee of $25 for the device, which includes shipping and handling. This fee also applies to replacements. 
+WELLS FARGO
+
+
+Sources
+
+
+
+
+
+
+You said:
+User Utterance: Advance access
+ChatGPT said:
+ChatGPT
+Advanced Access is a security feature from Wells Fargo that adds extra protection to your online banking. When completing certain activities, you'll receive a unique code via text or email. Entering this code along with your password confirms your identity, making it harder for unauthorized users to access your account. This two-step verification enhances the security of your online transactions.
+
+
+
+
+
+
+===============
+User Utterance: Paze
+
+2/2
+
+ChatGPT
+
+Thought for 11 seconds
+
+Hello! Paze℠ is a convenient way to pay online offered by Wells Fargo. It lets you combine your eligible debit and credit cards into one digital wallet. With Paze℠, you can check out at participating businesses without entering usernames, passwords, or your actual card numbers. It uses a unique code when you pay, so your real card number stays private and secure. Paze℠ is easy to use and helps make your online shopping safer and simpler.
+
+
+
+
+
+
+You said:
+User Utterance: Paze ATM
+ChatGPT
+
+Thought for 15 seconds
+
+Hello. Paze℠ is designed for making online payments at participating businesses and cannot be used at ATMs. It's a digital wallet that lets you pay online securely without entering your card details each time.
+
+
+
+
+
+
+You said:
+User Utterance: I am asking wells fargo to remove paze off my account immediately.
+ChatGPT
+
+Thought for 18 seconds
+
+I understand that you'd like to remove Paze℠ from your account. You can do this by visiting your digital wallet in the Wells Fargo Mobile app or through your Wells Fargo Online account. There, you can remove your cards from Paze℠, which will disable it for your account.
+
+
+
+
+
+
+You said:
+User Utterance: Paze
+ChatGPT said:
+ChatGPT
+Paze | Online Checkout
+paze.com
+
+Paze℠ is a digital wallet offered by Wells Fargo that simplifies online payments. It consolidates your eligible debit and credit cards into a single wallet, allowing you to check out at participating online businesses without entering usernames, passwords, or actual card numbers. Paze℠ enhances security by using a unique code for transactions, ensuring your actual card number isn't shared with merchants. 
+WELLS FARGO
+
+Key Benefits of Paze℠:
+
+Convenience: No need to download a new app or memorize additional passwords. Simply select Paze℠ at checkout or enter the email address associated with your Wells Fargo account. 
+WELLS FARGO
+
+Security: Paze℠ replaces your 16-digit card number with a unique code during transactions, adding an extra layer of protection. 
+WELLS FARGO
+
+Integration: Offered by Wells Fargo, Paze℠ works seamlessly with your existing accounts. 
+WELLS FARGO
+
+Using Paze℠:
+
+Eligible Cards: Paze℠ supports eligible debit and credit cards issued by participating banks and credit unions. You can check if your bank or credit union offers Paze℠ by visiting Paze.com. 
+WELLS FARGO
+
+Activation: There's no need to sign up or download a new app. Look for the Paze℠ logo when checking out at a participating business or enter the email address you use with Wells Fargo. 
+WELLS FARGO
+
+Usage: Paze℠ can be used at any participating online business. You can view the list of businesses that offer Paze℠ on Paze.com. 
+WELLS FARGO
+
+Managing Paze℠:
+
+Adding/Removing Cards: Manage your card information in your digital wallet through the Wells Fargo Mobile app. For security reasons, additional verification may be required to add or remove cards. 
+WELLS FARGO
+
+Opting Out: If you choose to opt out of Paze℠, you can do so after your eligible debit and credit cards have been made available in the wallet. For more information, please refer to the Paze℠ FAQs on the Wells Fargo website. 
+WELLS FARGO
+
+Paze℠ is designed to make your online shopping experience more secure and convenient by streamlining the checkout process and protecting your card information.
+
+
+Sources
+
+
+
+
+
+
+You said:
+User Utterance: Paze ATM
+ChatGPT said:
+ChatGPT
+Paze℠ is a digital wallet offered by Wells Fargo, designed specifically for online transactions at participating merchants. It allows you to make secure online payments without entering your card details each time. However, Paze℠ cannot be used at ATMs or physical merchant locations. For ATM transactions, you can use your physical Wells Fargo debit or credit card, or utilize digital wallets like Apple Pay®, Google Pay™, or Samsung Pay® if your card is linked to these services. 
+WELLS FARGO
+
+
+Sources
+
+
+
+
+
+
+You said:
+User Utterance: I am asking wells fargo to remove paze off my account immediately.
+ChatGPT said:
+ChatGPT
+To remove Paze℠ from your account, you can manage your card information through the Wells Fargo Mobile app. Within the app, navigate to your digital wallet settings to remove your cards from Paze℠. For security reasons, additional verification may be required during this process. 
+WELLS FARGO
+
+
+Sources
+
+
+
+
+
+
+
+
+
+
