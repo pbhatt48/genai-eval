@@ -12,3 +12,16 @@ cosine_scores = util.pytorch_cos_sim(embeddings1, embeddings2)
 # Add to DataFrame
 df['Semantic_Similarity'] = [cosine_scores[i][i].item() for i in range(len(df))]
 print(df)
+
+
+from textblob import TextBlob
+
+# Function to calculate sentiment polarity
+def get_sentiment(text):
+    return TextBlob(text).sentiment.polarity
+
+# Apply sentiment analysis
+df['Sentiment_Response1'] = df['Response1'].apply(get_sentiment)
+df['Sentiment_Response2'] = df['Response2'].apply(get_sentiment)
+df['Sentiment_Difference'] = abs(df['Sentiment_Response1'] - df['Sentiment_Response2'])
+print(df)
