@@ -1,25 +1,27 @@
-import json
+from sentence_transformers import SentenceTransformer, util
 
-def convert_json_to_jsonl(input_json_file, output_jsonl_file):
-    """
-    Convert a JSON file (array of objects) to JSONL format.
-    
-    :param input_json_file: Path to the input JSON file.
-    :param output_jsonl_file: Path to the output JSONL file.
-    """
-    # Read the input JSON file
-    with open(input_json_file, 'r') as json_file:
-        data = json.load(json_file)  # Load JSON array
-        
-    # Write to JSONL file
-    with open(output_jsonl_file, 'w') as jsonl_file:
-        for item in data:
-            jsonl_file.write(json.dumps(item) + '\n')  # Write each JSON object on a new line
+model = SentenceTransformer('all-MiniLM-L6-v2')
 
-# Main execution
-if __name__ == "__main__":
-    input_file = "/path/to/your/input.json"   # Replace with the input JSON file path
-    output_file = "/path/to/your/output.jsonl"  # Replace with the output JSONL file path
-    
-    convert_json_to_jsonl(input_file, output_file)
-    print(f"Conversion completed: {output_file}")
+# Encode the sentences
+embeddings1 = model.encode(df['Response1'].tolist(), convert_to_tensor=True)
+embeddings2 = model.encode(df['Response2'].tolist(), convert_to_tensor=True)
+
+# Compute cosine similarity
+cosine_scores = util.pytorch_cos_sim(embeddings1, embeddings2)
+
+# Add to DataFrame
+df['Semantic_Similarity'] = [cosine_scores[i][i].item() for i in range(len(df))]
+print(df)
+
+
+from textblob import TextBlob
+
+# Function to calculate sentiment polarity
+def get_sentiment(text):
+    return TextBlob(text).sentiment.polarity
+
+# Apply sentiment analysis
+df['Sentiment_Response1'] = df['Response1'].apply(get_sentiment)
+df['Sentiment_Response2'] = df['Response2'].apply(get_sentiment)
+df['Sentiment_Difference'] = abs(df['Sentiment_Response1'] - df['Sentiment_Response2'])
+print(df)
