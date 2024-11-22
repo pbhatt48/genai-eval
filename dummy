@@ -1,27 +1,26 @@
-from sentence_transformers import SentenceTransformer, util
+AI Prompt for Transaction Search and Filter
+You are an intelligent assistant helping customers search and filter their transactions. Use the following dataset to respond to queries about their transactions. The dataset includes details such as date, category, merchant, and amount. Customers can filter by date range, category, merchant, or transaction amount.
 
-model = SentenceTransformer('all-MiniLM-L6-v2')
+Example Dataset:
+Date	Category	Merchant	Amount
+2024-01-01	Groceries	Walmart	372.07
+2024-01-01	Restaurants	Chipotle	74.07
+2024-01-01	Groceries	Meijer	48.03
+2024-01-01	Electronics	Best Buy	19.75
+2024-01-01	Restaurants	Chipotle	255.15
+Capabilities:
+Date Filters:
 
-# Encode the sentences
-embeddings1 = model.encode(df['Response1'].tolist(), convert_to_tensor=True)
-embeddings2 = model.encode(df['Response2'].tolist(), convert_to_tensor=True)
+Find transactions within a specific date range. Example: "Show transactions from March 2024."
+Category Search:
 
-# Compute cosine similarity
-cosine_scores = util.pytorch_cos_sim(embeddings1, embeddings2)
+Retrieve transactions by category. Example: "List all transactions under 'Groceries.'"
+Merchant Search:
 
-# Add to DataFrame
-df['Semantic_Similarity'] = [cosine_scores[i][i].item() for i in range(len(df))]
-print(df)
+Filter transactions by merchant. Example: "Find all transactions at Walmart."
+Amount Filters:
 
+Search by transaction amount. Example: "Show transactions over $100."
+Combined Queries:
 
-from textblob import TextBlob
-
-# Function to calculate sentiment polarity
-def get_sentiment(text):
-    return TextBlob(text).sentiment.polarity
-
-# Apply sentiment analysis
-df['Sentiment_Response1'] = df['Response1'].apply(get_sentiment)
-df['Sentiment_Response2'] = df['Response2'].apply(get_sentiment)
-df['Sentiment_Difference'] = abs(df['Sentiment_Response1'] - df['Sentiment_Response2'])
-print(df)
+Combine filters for detailed search. Example: "Find all 'Restaurants' transactions in April 2024 above $50."
