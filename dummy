@@ -1,62 +1,52 @@
-# Understanding `SequenceMatcher` with an Example
+JIRA Story: Orchestrator Support for Session Parameters to Control GEN AI Response Execution
+Story ID: (To be assigned)
+Summary: Enhance the Orchestrator to utilize session parameters for controlling when to execute the Data Store (DS) or call GEN AI for responses, based on rollout flags and intent-specific logic.
 
-`SequenceMatcher` is a Python tool from the `difflib` library that compares two sequences (strings, lists, etc.) and identifies their similarity. It focuses on finding the **longest contiguous matching subsequences** and calculates a similarity score.
+Description:
+To support the incremental release of GEN AI functionality and fine-tune its integration with existing workflows, we need to introduce a mechanism in the Orchestrator to utilize session parameters. These parameters will control the logic determining when to call the Data Store (DS) or GEN AI for specific intents, ensuring flexibility and alignment with rollout and business rules.
 
----
+Acceptance Criteria:
+Session Parameters for Feature Rollout (FTT Flag)
 
-## How `SequenceMatcher` Works
+Orchestrator must recognize and utilize a session parameter (e.g., ftt) injected into sessions to control GEN AI functionality.
+If ftt is enabled for a session, the Orchestrator must route the request to GEN AI; otherwise, it must default to the DS.
+The flag behavior must be adjustable to accommodate customer-specific rollout plans.
+Intent-Specific Control
 
-- It identifies **matching blocks**: Parts of the sequences that are the same.
-- It calculates a **similarity ratio**: A value between 0 and 1 indicating how similar the sequences are.
-- It provides **opcodes**: Instructions to transform one sequence into another.
+Introduce a session parameter (e.g., genai-has-paze) to determine if GEN AI should handle a specific utterance within an intent.
+Example: For the intent money.enrollment.head, only trigger GEN AI if the utterance meets a specified condition (e.g., "enroll in page") and the parameter genai-has-paze is set to true.
+If the parameter is not set or false, Orchestrator must skip GEN AI and execute DS logic.
+Configurability
 
----
+Session parameters must be dynamically configurable to allow easy updates without requiring code changes.
+The logic layer must be flexible to accommodate future use cases beyond the described scenarios.
+Logging and Debugging
 
-## Example: Comparing Two Strings
+Log decision points in the Orchestrator to track whether DS or GEN AI was called and why.
+Provide detailed logs when session parameters influence routing decisions.
+Use Cases:
+Incremental GEN AI Rollout:
 
-### Strings to Compare
-1. `"The quick brown fox jumps over the lazy dog"`
-2. `"The quick blue fox jumped over a lazy dog"`
+As part of a staged release plan, enable GEN AI for a subset of customers by injecting the ftt flag as a session parameter.
+For customers without the ftt flag, continue using DS for responses.
+Intent-Specific GEN AI Calls:
 
----
+For the intent money.enrollment.head, only send specific utterances (e.g., "enroll in page") to GEN AI if the session includes the parameter genai-has-paze=true.
+Ensure that other utterances within the same intent bypass GEN AI and rely on DS.
+Tasks:
+Design & Architecture
 
-### Step 1: Using `SequenceMatcher`
+Define the logic layer for parameter-driven decision-making.
+Update Orchestrator to parse and evaluate session parameters dynamically.
+Implementation
 
-```python
-from difflib import SequenceMatcher
+Add support for ftt and genai-has-paze session parameters in the Orchestrator.
+Implement routing logic to call DS or GEN AI based on parameter values.
+Testing
 
-# Define the strings
-string1 = "The quick brown fox jumps over the lazy dog"
-string2 = "The quick blue fox jumped over a lazy dog"
+Develop unit tests for the new parameter-driven routing logic.
+Perform end-to-end testing to validate incremental rollout scenarios and intent-specific GEN AI calls.
+Documentation
 
-# Initialize SequenceMatcher
-matcher = SequenceMatcher(None, string1, string2)
-
-# Calculate similarity ratio
-similarity_ratio = matcher.ratio()
-
-
-
-### Step 3: Visualizing Matching Blocks
-
-| **String 1**                   | The quick **brown** fox jumps over the lazy dog |
-|---------------------------------|------------------------------------------------|
-| **String 2**                   | The quick **blue** fox jumped over a lazy dog   |
-| **Matching Parts**             | `"The quick"`, `"fox jumped over"`, `"a lazy dog"` |
-| **Non-Matching Parts (Replaced)** | `"brown"` ↔ `"blue"`, `"jumps"` ↔ `"jumped"`     |
-
-
-
-
-
-
-# Get matching blocks
-matching_blocks = matcher.get_matching_blocks()
-
-# Get opcodes (differences and matches)
-opcodes = matcher.get_opcodes()
-
-# Print results
-print(f"Similarity Ratio: {similarity_ratio:.2f}")
-print("Matching Blocks:", matching_blocks)
-print("Opcodes:", opcodes)
+Document the new session parameters and their usage for developers and operators.
+Provide examples of parameter configurations and expected outcomes.
