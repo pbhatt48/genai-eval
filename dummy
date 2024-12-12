@@ -1,10 +1,29 @@
-phone_pattern = r'\b(?:\+?1[-.\s]?)?(?:\(?\d{3}\)?[-.\s]?)?\d{3}[-.\s]?\d{4}\b'
-
-# Check if values in Column1 contain phone numbers
-df['Column1 Contains Phone'] = df['Column1'].apply(lambda x: bool(re.search(phone_pattern, x)) if isinstance(x, str) else False)
-
-# Check if values in Column2 contain phone numbers
-df['Column2 Contains Phone'] = df['Column2'].apply(lambda x: bool(re.search(phone_pattern, x)) if isinstance(x, str) else False)
-
-# Display results
-print(df)
+Project/
+│
+├── Releases/
+│   ├── Release_01/
+│   │   ├── Docs/
+│   │   │   ├── ISL_Curated_PDFs/
+│   │   │   └── ISL_Website_PDFs/
+│   │   ├── Tests/
+│   │   └── Release_Notes.md
+│   │
+│   ├── Release_02/
+│   │   ├── Docs/
+│   │   │   ├── ISL_Curated_PDFs/
+│   │   │   └── ISL_Website_PDFs/
+│   │   ├── Tests/
+│   │   └── Release_Notes.md
+│   │
+│   └── Release_03/
+│       ├── Docs/
+│       │   ├── ISL_Curated_PDFs/
+│       │   └── ISL_Website_PDFs/
+│       ├── Tests/
+│       └── Release_Notes.md
+│
+├── Current/
+│   ├── Docs/
+│   │   ├── ISL_Curated_PDFs/
+│   │   └── ISL_Website_PDFs/
+│   ├── Tests/
