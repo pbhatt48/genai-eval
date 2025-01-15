@@ -1,29 +1,34 @@
-Project/
-│
-├── Releases/
-│   ├── Release_01/
-│   │   ├── Docs/
-│   │   │   ├── ISL_Curated_PDFs/
-│   │   │   └── ISL_Website_PDFs/
-│   │   ├── Tests/
-│   │   └── Release_Notes.md
-│   │
-│   ├── Release_02/
-│   │   ├── Docs/
-│   │   │   ├── ISL_Curated_PDFs/
-│   │   │   └── ISL_Website_PDFs/
-│   │   ├── Tests/
-│   │   └── Release_Notes.md
-│   │
-│   └── Release_03/
-│       ├── Docs/
-│       │   ├── ISL_Curated_PDFs/
-│       │   └── ISL_Website_PDFs/
-│       ├── Tests/
-│       └── Release_Notes.md
-│
-├── Current/
-│   ├── Docs/
-│   │   ├── ISL_Curated_PDFs/
-│   │   └── ISL_Website_PDFs/
-│   ├── Tests/
+import json
+
+def convert_json_to_jsonl(input_file, output_file):
+    """
+    Convert a JSON file to JSON Lines format.
+
+    :param input_file: Path to the input JSON file.
+    :param output_file: Path to the output JSONL file.
+    """
+    try:
+        with open(input_file, 'r') as infile:
+            data = json.load(infile)  # Load the JSON data
+
+        # Open the output file for writing
+        with open(output_file, 'w') as outfile:
+            # If the JSON is a list of objects, write each object on a new line
+            if isinstance(data, list):
+                for item in data:
+                    json_line = json.dumps(item)
+                    outfile.write(json_line + '\n')
+            else:
+                # If the JSON is a single object, write it as one line
+                json_line = json.dumps(data)
+                outfile.write(json_line + '\n')
+        
+        print(f"Successfully converted {input_file} to {output_file} in JSONL format.")
+    
+    except Exception as e:
+        print(f"Error: {e}")
+
+# Example usage
+input_file = 'input.json'  # Path to your JSON file
+output_file = 'output.jsonl'  # Desired path for the JSONL file
+convert_json_to_jsonl(input_file, output_file)
