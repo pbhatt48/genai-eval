@@ -1,47 +1,39 @@
 {
-  "response": "Here are the available Phoenix branch locations.",
+  "response": "Here are the available branch locations.",
   "api_response": {
     "status": "success",
     "message": "Branch locations and availability retrieved successfully.",
     "data": {
       "branches": [
         {
-          "branch_name": "Central & Washington",
-          "address": "3 N Central Ave Ste 150, Phoenix, AZ 85004",
-          "distance": "0.5 miles",
-          "phone": "602-258-1802",
+          "branch_name": "BRANCH_NAME",
+          "address": "ADDRESS",
+          "distance": "DISTANCE",
+          "phone": "PHONE_NUMBER",
           "available_dates_and_times": [
             {
-              "date": "Monday, April 14",
-              "times": ["9:30am - 4:00pm", "10:00am - 4:00pm", "10:30am - 4:00pm", "11:30am - 3:30pm"]
+              "date": "DATE",
+              "times": ["TIME_SLOT_1", "TIME_SLOT_2", "TIME_SLOT_3"]
             },
             {
-              "date": "Tuesday, April 15",
-              "times": ["9:30am - 4:00pm"]
-            },
-            {
-              "date": "Wednesday, April 16",
-              "times": ["9:30am - 4:00pm", "10:00am - 4:00pm"]
+              "date": "DATE",
+              "times": ["TIME_SLOT_1", "TIME_SLOT_2"]
             }
           ]
         },
         {
-          "branch_name": "Park Central",
-          "address": "3020 N Central Ave, Phoenix, AZ 85012",
-          "distance": "2.3 miles",
-          "phone": "602-252-7540",
+          "branch_name": "BRANCH_NAME",
+          "address": "ADDRESS",
+          "distance": "DISTANCE",
+          "phone": "PHONE_NUMBER",
           "available_dates_and_times": [
             {
-              "date": "Monday, April 14",
-              "times": ["12:00pm - 2:30pm", "1:00pm - 3:00pm"]
+              "date": "DATE",
+              "times": ["TIME_SLOT_1", "TIME_SLOT_2"]
             },
             {
-              "date": "Tuesday, April 15",
-              "times": ["12:30pm - 1:30pm"]
-            },
-            {
-              "date": "Wednesday, April 16",
-              "times": ["12:30pm - 1:30pm"]
+              "date": "DATE",
+              "times": ["TIME_SLOT_1"]
             }
           ]
         }
