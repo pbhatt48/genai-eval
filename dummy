@@ -1,145 +1,97 @@
-openapi: 3.0.0
-info:
-  title: Appointment Booking API
-  description: API for booking appointments including reason selection, branch location, and available time slots.
-  version: 1.0.0
-  contact:
-    name: Support Team
-    email: support@example.com
+The purpose of this agent is to provide the nearest bank branch location based on a given zip code. The agent will simulate a response with mock data that includes branch names, addresses, and distances.
 
-paths:
-  /appointment/reason:
-    get:
-      summary: Get the available reasons for booking an appointment
-      operationId: getBookingReasons
-      responses:
-        '200':
-          description: Successfully fetched available reasons for booking
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  response:
-                    type: string
-                    example: "Please provide the reason for booking your appointment. You can choose from services such as consultation, document review, or support."
-                  api_response:
-                    type: object
-                    properties:
-                      status:
-                        type: string
-                        example: "success"
-                      message:
-                        type: string
-                        example: "Reason for booking request received"
-                      data:
-                        type: object
-                        properties:
-                          available_reasons:
-                            type: array
-                            items:
-                              type: string
-                            example:
-                              - "Consultation"
-                              - "Document Review"
-                              - "Support"
-                              - "Account Inquiry"
-                              - "Technical Assistance"
+Prompt Template
+User's Query: "What is the nearest branch location for zip code [zip_code]?"
+sql
+Copy
+User Query: "What is the nearest branch location for zip code [zip_code]?"
 
-  /appointment/branch-location:
-    get:
-      summary: Get the closest branch locations for booking an appointment
-      operationId: getClosestBranchLocations
-      parameters:
-        - in: query
-          name: zip_code
-          required: true
-          schema:
-            type: string
-            example: "10001"
-          description: The zip code or location of the user to find nearby branches
-      responses:
-        '200':
-          description: Successfully fetched branch locations
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  response:
-                    type: string
-                    example: "To find the closest branch location for booking your appointment, please provide your current location or zip code."
-                  api_response:
-                    type: object
-                    properties:
-                      status:
-                        type: string
-                        example: "success"
-                      message:
-                        type: string
-                        example: "Branch location request received"
-                      data:
-                        type: object
-                        properties:
-                          branch_locations:
-                            type: array
-                            items:
-                              type: object
-                              properties:
-                                branch_name:
-                                  type: string
-                                  example: "Downtown Branch"
-                                address:
-                                  type: string
-                                  example: "123 Main St, City Center"
-                                zip_code:
-                                  type: string
-                                  example: "10001"
-                                distance:
-                                  type: string
-                                  example: "2.5 miles"
+Agent Prompt:
+"""
+{
+  "response": "Based on your zip code [zip_code], here are the nearest bank branch locations.",
+  "api_response": {
+    "status": "success",
+    "message": "Branch location request received",
+    "data": {
+      "nearest_branches": [
+        {
+          "branch_name": "Downtown Branch",
+          "address": "123 Main St, City Center",
+          "zip_code": "[zip_code]",
+          "distance": "2.5 miles"
+        },
+        {
+          "branch_name": "Northside Branch",
+          "address": "456 Oak Rd, North Town",
+          "zip_code": "[zip_code]",
+          "distance": "3.0 miles"
+        },
+        {
+          "branch_name": "West End Branch",
+          "address": "789 Pine St, West End",
+          "zip_code": "[zip_code]",
+          "distance": "4.0 miles"
+        }
+      ]
+    }
+  }
+}
+"""
+Explanation of the Template:
+User Query: The user asks for the nearest branch location using a zip code. In this template, the [zip_code] placeholder is used where the zip code will be dynamically inserted.
 
-  /appointment/time-slots:
-    get:
-      summary: Get available time slots for a specific branch
-      operationId: getAvailableTimeSlots
-      parameters:
-        - in: query
-          name: branch_name
-          required: true
-          schema:
-            type: string
-            example: "Downtown Branch"
-          description: The name of the branch to get available time slots
-      responses:
-        '200':
-          description: Successfully fetched available time slots
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  response:
-                    type: string
-                    example: "Please select the branch location for which you'd like to see available time slots."
-                  api_response:
-                    type: object
-                    properties:
-                      status:
-                        type: string
-                        example: "success"
-                      message:
-                        type: string
-                        example: "Time slots request received"
-                      data:
-                        type: object
-                        properties:
-                          time_slots:
-                            type: array
-                            items:
-                              type: string
-                            example:
-                              - "9:00 AM - 10:00 AM"
-                              - "10:30 AM - 11:30 AM"
-                              - "1:00 PM - 2:00 PM"
-                              - "2:30 PM - 3:30 PM"
+Agent Prompt: The agent responds with a JSON object that includes:
+
+A general response to inform the user that the nearest branches are being returned.
+
+A mock api_response with:
+
+status: Always "success" for this mock response.
+
+message: Provides a description of the request being processed.
+
+data: Contains an array of mock branch locations, each with:
+
+branch_name: The name of the branch.
+
+address: The address of the branch.
+
+zip_code: The zip code (the one requested by the user).
+
+distance: The distance of the branch from the provided zip code (mock data).
+
+Example Use Case:
+If a user queries with zip code 10001, the agent would respond with the following mock data:
+
+json
+Copy
+{
+  "response": "Based on your zip code 10001, here are the nearest bank branch locations.",
+  "api_response": {
+    "status": "success",
+    "message": "Branch location request received",
+    "data": {
+      "nearest_branches": [
+        {
+          "branch_name": "Downtown Branch",
+          "address": "123 Main St, City Center",
+          "zip_code": "10001",
+          "distance": "2.5 miles"
+        },
+        {
+          "branch_name": "Northside Branch",
+          "address": "456 Oak Rd, North Town",
+          "zip_code": "10001",
+          "distance": "3.0 miles"
+        },
+        {
+          "branch_name": "West End Branch",
+          "address": "789 Pine St, West End",
+          "zip_code": "10001",
+          "distance": "4.0 miles"
+        }
+      ]
+    }
+  }
+}
