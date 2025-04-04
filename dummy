@@ -1,95 +1,49 @@
-The purpose of this agent is to provide the nearest bank branch location based on a given zip code. The agent will simulate a response with mock data that includes branch names, addresses, and distances.
-
-Prompt Template
-User's Query: "What is the nearest branch location for zip code [zip_code]?"
-sql
-Copy
-User Query: "What is the nearest branch location for zip code [zip_code]?"
-
-Agent Prompt:
-"""
 {
-  "response": "Based on your zip code [zip_code], here are the nearest bank branch locations.",
+  "response": "Here are the available Phoenix branch locations.",
   "api_response": {
     "status": "success",
-    "message": "Branch location request received",
+    "message": "Branch locations and availability retrieved successfully.",
     "data": {
-      "nearest_branches": [
+      "branches": [
         {
-          "branch_name": "Downtown Branch",
-          "address": "123 Main St, City Center",
-          "zip_code": "[zip_code]",
-          "distance": "2.5 miles"
+          "branch_name": "Central & Washington",
+          "address": "3 N Central Ave Ste 150, Phoenix, AZ 85004",
+          "distance": "0.5 miles",
+          "phone": "602-258-1802",
+          "available_dates_and_times": [
+            {
+              "date": "Monday, April 14",
+              "times": ["9:30am - 4:00pm", "10:00am - 4:00pm", "10:30am - 4:00pm", "11:30am - 3:30pm"]
+            },
+            {
+              "date": "Tuesday, April 15",
+              "times": ["9:30am - 4:00pm"]
+            },
+            {
+              "date": "Wednesday, April 16",
+              "times": ["9:30am - 4:00pm", "10:00am - 4:00pm"]
+            }
+          ]
         },
         {
-          "branch_name": "Northside Branch",
-          "address": "456 Oak Rd, North Town",
-          "zip_code": "[zip_code]",
-          "distance": "3.0 miles"
-        },
-        {
-          "branch_name": "West End Branch",
-          "address": "789 Pine St, West End",
-          "zip_code": "[zip_code]",
-          "distance": "4.0 miles"
-        }
-      ]
-    }
-  }
-}
-"""
-Explanation of the Template:
-User Query: The user asks for the nearest branch location using a zip code. In this template, the [zip_code] placeholder is used where the zip code will be dynamically inserted.
-
-Agent Prompt: The agent responds with a JSON object that includes:
-
-A general response to inform the user that the nearest branches are being returned.
-
-A mock api_response with:
-
-status: Always "success" for this mock response.
-
-message: Provides a description of the request being processed.
-
-data: Contains an array of mock branch locations, each with:
-
-branch_name: The name of the branch.
-
-address: The address of the branch.
-
-zip_code: The zip code (the one requested by the user).
-
-distance: The distance of the branch from the provided zip code (mock data).
-
-Example Use Case:
-If a user queries with zip code 10001, the agent would respond with the following mock data:
-
-json
-Copy
-{
-  "response": "Based on your zip code 10001, here are the nearest bank branch locations.",
-  "api_response": {
-    "status": "success",
-    "message": "Branch location request received",
-    "data": {
-      "nearest_branches": [
-        {
-          "branch_name": "Downtown Branch",
-          "address": "123 Main St, City Center",
-          "zip_code": "10001",
-          "distance": "2.5 miles"
-        },
-        {
-          "branch_name": "Northside Branch",
-          "address": "456 Oak Rd, North Town",
-          "zip_code": "10001",
-          "distance": "3.0 miles"
-        },
-        {
-          "branch_name": "West End Branch",
-          "address": "789 Pine St, West End",
-          "zip_code": "10001",
-          "distance": "4.0 miles"
+          "branch_name": "Park Central",
+          "address": "3020 N Central Ave, Phoenix, AZ 85012",
+          "distance": "2.3 miles",
+          "phone": "602-252-7540",
+          "available_dates_and_times": [
+            {
+              "date": "Monday, April 14",
+              "times": ["12:00pm - 2:30pm", "1:00pm - 3:00pm"]
+            },
+            {
+              "date": "Tuesday, April 15",
+              "times": ["12:30pm - 1:30pm"]
+            },
+            {
+              "date": "Wednesday, April 16",
+              "times": ["12:30pm - 1:30pm"]
+            }
+          ]
         }
       ]
     }
