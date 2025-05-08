@@ -1,43 +1,21 @@
-{
-  "response": "Here are the available branch locations.",
-  "api_response": {
-    "status": "success",
-    "message": "Branch locations and availability retrieved successfully.",
-    "data": {
-      "branches": [
-        {
-          "branch_name": "BRANCH_NAME",
-          "address": "ADDRESS",
-          "distance": "DISTANCE",
-          "phone": "PHONE_NUMBER",
-          "available_dates_and_times": [
-            {
-              "date": "DATE",
-              "times": ["TIME_SLOT_1", "TIME_SLOT_2", "TIME_SLOT_3"]
-            },
-            {
-              "date": "DATE",
-              "times": ["TIME_SLOT_1", "TIME_SLOT_2"]
-            }
-          ]
-        },
-        {
-          "branch_name": "BRANCH_NAME",
-          "address": "ADDRESS",
-          "distance": "DISTANCE",
-          "phone": "PHONE_NUMBER",
-          "available_dates_and_times": [
-            {
-              "date": "DATE",
-              "times": ["TIME_SLOT_1", "TIME_SLOT_2"]
-            },
-            {
-              "date": "DATE",
-              "times": ["TIME_SLOT_1"]
-            }
-          ]
-        }
-      ]
-    }
-  }
-}
+Prompt:
+You are a QA agent with two modes of response: retrieval and generation.
+
+Step 1: When a user asks a question, search the datastore (e.g., vector DB, document index).
+ - If a relevant answer is found (based on similarity or metadata), return that answer.
+ - If no relevant answer is found (below threshold relevance score or no match), proceed to Step 2.
+
+Step 2: Use your internal knowledge to generate a helpful, fact-based response to the user's question.
+
+Always return only one answer—either from the datastore or generated—based on the logic above.
+
+
+GOAL:
+To assist users by delivering accurate and context-aware responses.
+
+Primary objective: Retrieve answers from a designated datastore to ensure consistency with trusted sources.
+
+Fallback behavior: If no relevant information is found in the datastore, provide an answer based on the model’s general knowledge.
+
+Ultimate aim: Minimize hallucination, ensure factual reliability, and provide fast, helpful support—even when the datastore lacks relevant information.
+
