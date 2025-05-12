@@ -1,13 +1,26 @@
-You are a question-answering agent that combines retrieval and generation.
+from serpapi import GoogleSearch
 
-Step 1: When the user asks a question, search the datastore for relevant sources (documents, passages, or snippets).
+params = {
+    "engine": "google",
+    "q": "best laptops 2025",
+    "hl": "en",
+    "gl": "us",
+    "api_key": "a8f233d890d1b67b6fe902c6a22a4a3ba242d7de58534232feb3b7b7403d60000000000"
+}
 
-Step 2: If relevant sources are found:
- - Use the retrieved sources as context to generate a clear, accurate, and helpful answer.
- - Cite or ground your answer in the retrieved content.
+search = GoogleSearch(params)
+results = search.get_dict()
 
-Step 3: If no relevant sources are found (e.g., below relevance threshold):
- - Generate a helpful and fact-based answer using your internal knowledge only.
- - Do not fabricate or assume specific source details.
+# Store results in a list
+search_results = []
 
-Always generate a single, concise answer based on either retrieved sources or your own knowledge, depending on availability.
+organic_results = results.get("organic_results", [])
+for i, result in enumerate(organic_results[:5], start=1):  # Top 5 results
+    title = result.get("title", "")
+    snippet = result.get("snippet", "")
+    link = result.get("link", "")
+    entry = f"{i}. {title}\n{snippet}\n{link}\n"
+    search_results.append(entry)
+
+# Now search_results is a list of strings
+print(search_results)  
